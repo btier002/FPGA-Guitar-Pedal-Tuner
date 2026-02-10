@@ -1,0 +1,289 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x1D0075D557E28970",
+      "device": "xc7a35tcpg236-1",
+      "name": "fft_design",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2024.2"
+    },
+    "design_tree": {
+      "xfft_0": "",
+      "xlslice_0": "",
+      "xlslice_1": "",
+      "mult_gen_0": "",
+      "mult_gen_1": "",
+      "c_addsub_0": "",
+      "xlslice_2": ""
+    },
+    "ports": {
+      "TVALID_FFT_Block": {
+        "direction": "O"
+      },
+      "TLAST_FFT_Block": {
+        "direction": "O"
+      },
+      "s_axis_data": {
+        "type": "data",
+        "direction": "I"
+      },
+      "s_axis_valid": {
+        "type": "data",
+        "direction": "I"
+      },
+      "s_axis_last": {
+        "type": "data",
+        "direction": "I"
+      },
+      "axis_clk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "FREQ_HZ": {
+            "value": "44000000"
+          }
+        }
+      },
+      "s_axis_ready": {
+        "direction": "O"
+      },
+      "m_axis_data_tready": {
+        "direction": "I"
+      },
+      "real_fft": {
+        "type": "data",
+        "direction": "O",
+        "left": "15",
+        "right": "0"
+      }
+    },
+    "components": {
+      "xfft_0": {
+        "vlnv": "xilinx.com:ip:xfft:9.1",
+        "ip_revision": "13",
+        "xci_name": "fft_design_xfft_0_0",
+        "parameters": {
+          "implementation_options": {
+            "value": "automatically_select"
+          },
+          "input_width": {
+            "value": "16"
+          },
+          "number_of_stages_using_block_ram_for_data_and_phase_factors": {
+            "value": "4"
+          },
+          "output_ordering": {
+            "value": "natural_order"
+          },
+          "phase_factor_width": {
+            "value": "16"
+          },
+          "target_clock_frequency": {
+            "value": "22"
+          },
+          "target_data_throughput": {
+            "value": "22"
+          },
+          "transform_length": {
+            "value": "2048"
+          }
+        }
+      },
+      "xlslice_0": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "ip_revision": "4",
+        "xci_name": "fft_design_xlslice_0_0",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "31"
+          },
+          "DIN_TO": {
+            "value": "16"
+          },
+          "DIN_WIDTH": {
+            "value": "32"
+          }
+        }
+      },
+      "xlslice_1": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "ip_revision": "4",
+        "xci_name": "fft_design_xlslice_1_0",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "15"
+          },
+          "DIN_TO": {
+            "value": "0"
+          },
+          "DIN_WIDTH": {
+            "value": "32"
+          },
+          "DOUT_WIDTH": {
+            "value": "16"
+          }
+        }
+      },
+      "mult_gen_0": {
+        "vlnv": "xilinx.com:ip:mult_gen:12.0",
+        "ip_revision": "22",
+        "xci_name": "fft_design_mult_gen_0_0",
+        "parameters": {
+          "PortAWidth": {
+            "value": "16"
+          },
+          "PortBWidth": {
+            "value": "16"
+          }
+        }
+      },
+      "mult_gen_1": {
+        "vlnv": "xilinx.com:ip:mult_gen:12.0",
+        "ip_revision": "22",
+        "xci_name": "fft_design_mult_gen_1_0",
+        "parameters": {
+          "PortAWidth": {
+            "value": "16"
+          },
+          "PortBWidth": {
+            "value": "16"
+          }
+        }
+      },
+      "c_addsub_0": {
+        "vlnv": "xilinx.com:ip:c_addsub:12.0",
+        "ip_revision": "19",
+        "xci_name": "fft_design_c_addsub_0_0",
+        "parameters": {
+          "A_Width": {
+            "value": "32"
+          },
+          "B_Value": {
+            "value": "00000000000000000000000000000000"
+          },
+          "B_Width": {
+            "value": "32"
+          },
+          "CE": {
+            "value": "false"
+          },
+          "Latency": {
+            "value": "1"
+          },
+          "Out_Width": {
+            "value": "32"
+          }
+        }
+      },
+      "xlslice_2": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "ip_revision": "4",
+        "xci_name": "fft_design_xlslice_2_0",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "15"
+          }
+        }
+      }
+    },
+    "nets": {
+      "c_addsub_0_S": {
+        "ports": [
+          "c_addsub_0/S",
+          "xlslice_2/Din"
+        ]
+      },
+      "clk_wiz_0_clk_out1": {
+        "ports": [
+          "axis_clk",
+          "xfft_0/aclk",
+          "mult_gen_0/CLK",
+          "mult_gen_1/CLK",
+          "c_addsub_0/CLK"
+        ]
+      },
+      "m_axis_data_1": {
+        "ports": [
+          "s_axis_data",
+          "xfft_0/s_axis_data_tdata"
+        ]
+      },
+      "m_axis_data_tready_1": {
+        "ports": [
+          "m_axis_data_tready",
+          "xfft_0/m_axis_data_tready"
+        ]
+      },
+      "m_axis_last_1": {
+        "ports": [
+          "s_axis_last",
+          "xfft_0/s_axis_data_tlast"
+        ]
+      },
+      "m_axis_valid_1": {
+        "ports": [
+          "s_axis_valid",
+          "xfft_0/s_axis_data_tvalid"
+        ]
+      },
+      "mult_gen_0_P": {
+        "ports": [
+          "mult_gen_0/P",
+          "c_addsub_0/A"
+        ]
+      },
+      "mult_gen_1_P": {
+        "ports": [
+          "mult_gen_1/P",
+          "c_addsub_0/B"
+        ]
+      },
+      "xfft_0_m_axis_data_tdata": {
+        "ports": [
+          "xfft_0/m_axis_data_tdata",
+          "xlslice_1/Din",
+          "xlslice_0/Din"
+        ]
+      },
+      "xfft_0_m_axis_data_tlast": {
+        "ports": [
+          "xfft_0/m_axis_data_tlast",
+          "TLAST_FFT_Block"
+        ]
+      },
+      "xfft_0_m_axis_data_tvalid": {
+        "ports": [
+          "xfft_0/m_axis_data_tvalid",
+          "TVALID_FFT_Block"
+        ]
+      },
+      "xfft_0_s_axis_data_tready": {
+        "ports": [
+          "xfft_0/s_axis_data_tready",
+          "s_axis_ready"
+        ]
+      },
+      "xlslice_0_Dout": {
+        "ports": [
+          "xlslice_0/Dout",
+          "mult_gen_0/A",
+          "mult_gen_0/B"
+        ]
+      },
+      "xlslice_1_Dout": {
+        "ports": [
+          "xlslice_1/Dout",
+          "mult_gen_1/A",
+          "mult_gen_1/B"
+        ]
+      },
+      "xlslice_2_Dout": {
+        "ports": [
+          "xlslice_2/Dout",
+          "real_fft"
+        ]
+      }
+    }
+  }
+}
