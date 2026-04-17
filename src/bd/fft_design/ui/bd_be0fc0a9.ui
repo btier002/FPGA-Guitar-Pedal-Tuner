@@ -1,43 +1,57 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.73361",
-   "Default View_TopLeft":"52,1",
+   "Default View_ScaleFactor":"0.652662",
+   "Default View_TopLeft":"-176,-113",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.8.0 2024-04-26 e1825d835c VDI=44 GEI=38 GUI=JA:21.0
 #  -string -flagsOSRD
-preplace port port-id_TVALID_FFT_Block -pg 1 -lvl 6 -x 1340 -y 470 -defaultsOSRD
-preplace port port-id_TLAST_FFT_Block -pg 1 -lvl 6 -x 1340 -y 430 -defaultsOSRD
-preplace port port-id_s_axis_data -pg 1 -lvl 0 -x -10 -y 440 -defaultsOSRD
-preplace port port-id_s_axis_valid -pg 1 -lvl 0 -x -10 -y 510 -defaultsOSRD
-preplace port port-id_s_axis_last -pg 1 -lvl 0 -x -10 -y 470 -defaultsOSRD
-preplace port port-id_axis_clk -pg 1 -lvl 0 -x -10 -y 60 -defaultsOSRD
-preplace port port-id_s_axis_ready -pg 1 -lvl 6 -x 1340 -y 650 -defaultsOSRD
-preplace port port-id_m_axis_data_tready -pg 1 -lvl 0 -x -10 -y 330 -defaultsOSRD
-preplace portBus real_fft -pg 1 -lvl 6 -x 1340 -y 240 -defaultsOSRD
-preplace inst xfft_0 -pg 1 -lvl 4 -x 880 -y 490 -defaultsOSRD
-preplace inst xlslice_0 -pg 1 -lvl 2 -x 370 -y 220 -defaultsOSRD
-preplace inst xlslice_1 -pg 1 -lvl 2 -x 370 -y 120 -defaultsOSRD
-preplace inst mult_gen_0 -pg 1 -lvl 3 -x 570 -y 220 -defaultsOSRD
-preplace inst mult_gen_1 -pg 1 -lvl 3 -x 570 -y 80 -defaultsOSRD
-preplace inst c_addsub_0 -pg 1 -lvl 4 -x 880 -y 240 -defaultsOSRD
-preplace inst xlslice_2 -pg 1 -lvl 5 -x 1190 -y 240 -defaultsOSRD
-preplace netloc c_addsub_0_S 1 4 1 N 240
-preplace netloc clk_wiz_0_clk_out1 1 0 4 NJ 60 N 60 480 0 670
-preplace netloc m_axis_data_1 1 0 4 NJ 440 160 450 NJ 450 NJ
-preplace netloc m_axis_data_tready_1 1 0 5 NJ 330 N 330 NJ 330 NJ 330 1080
-preplace netloc m_axis_last_1 1 0 4 NJ 470 N 470 NJ 470 NJ
-preplace netloc m_axis_valid_1 1 0 4 NJ 510 N 510 NJ 510 NJ
-preplace netloc mult_gen_0_P 1 3 1 N 220
-preplace netloc mult_gen_1_P 1 3 1 660 80n
-preplace netloc xfft_0_m_axis_data_tdata 1 1 4 270 -10 NJ -10 NJ -10 1090
-preplace netloc xfft_0_m_axis_data_tlast 1 4 2 NJ 430 N
-preplace netloc xfft_0_m_axis_data_tvalid 1 4 2 NJ 470 N
-preplace netloc xfft_0_s_axis_data_tready 1 3 3 680 650 NJ 650 N
-preplace netloc xlslice_0_Dout 1 2 1 470 220n
-preplace netloc xlslice_1_Dout 1 2 1 470 80n
-preplace netloc xlslice_2_Dout 1 5 1 N 240
-levelinfo -pg 1 -10 140 370 570 880 1190 1340
-pagesize -pg 1 -db -bbox -sgen -190 -160 1510 690
+preplace port port-id_TVALID_FFT_Block -pg 1 -lvl 7 -x 2280 -y 400 -defaultsOSRD
+preplace port port-id_TLAST_FFT_Block -pg 1 -lvl 7 -x 2280 -y 250 -defaultsOSRD
+preplace port port-id_m_axis_data_tdata -pg 1 -lvl 0 -x -30 -y 430 -defaultsOSRD
+preplace port port-id_m_axis_data_tvalid -pg 1 -lvl 0 -x -30 -y 490 -defaultsOSRD
+preplace port port-id_m_axis_data_tlast -pg 1 -lvl 0 -x -30 -y 460 -defaultsOSRD
+preplace port port-id_axis_clk -pg 1 -lvl 0 -x -30 -y 150 -defaultsOSRD
+preplace port port-id_m_axis_config_tdata -pg 1 -lvl 0 -x -30 -y 400 -defaultsOSRD
+preplace port port-id_m_axis_config_tvalid -pg 1 -lvl 0 -x -30 -y 370 -defaultsOSRD
+preplace port port-id_m_axis_config_tready -pg 1 -lvl 7 -x 2280 -y 560 -defaultsOSRD
+preplace port port-id_fft_ready_out -pg 1 -lvl 0 -x -30 -y 340 -defaultsOSRD
+preplace port port-id_m_axis_data_tready -pg 1 -lvl 7 -x 2280 -y 610 -defaultsOSRD
+preplace port port-id_event_tlast_unexpected -pg 1 -lvl 7 -x 2280 -y 480 -defaultsOSRD
+preplace port port-id_event_tlast_missing -pg 1 -lvl 7 -x 2280 -y 520 -defaultsOSRD
+preplace portBus real_fft -pg 1 -lvl 7 -x 2280 -y 310 -defaultsOSRD
+preplace inst xfft_0 -pg 1 -lvl 4 -x 1440 -y 410 -defaultsOSRD
+preplace inst xlslice_2 -pg 1 -lvl 6 -x 2160 -y 310 -defaultsOSRD
+preplace inst c_addsub_0 -pg 1 -lvl 3 -x 1070 -y 250 -defaultsOSRD
+preplace inst xlslice_0 -pg 1 -lvl 1 -x 660 -y 210 -defaultsOSRD
+preplace inst xlslice_1 -pg 1 -lvl 1 -x 660 -y 90 -defaultsOSRD
+preplace inst mult_gen_0 -pg 1 -lvl 2 -x 860 -y 230 -defaultsOSRD
+preplace inst mult_gen_1 -pg 1 -lvl 2 -x 860 -y 90 -defaultsOSRD
+preplace inst axis_data_fifo_0 -pg 1 -lvl 5 -x 1870 -y 370 -defaultsOSRD
+preplace netloc cfg_1 1 0 4 NJ 400 NJ 400 NJ 400 1160J
+preplace netloc clk_wiz_0_clk_out1 1 0 5 NJ 150 770 10 980 330 1210 570 1660
+preplace netloc m_axis_config_tvalid_1 1 0 4 NJ 370 NJ 370 NJ 370 1170J
+preplace netloc m_axis_data_1 1 0 4 0J 340 NJ 340 NJ 340 NJ
+preplace netloc m_axis_last_1 1 0 4 10J 390 NJ 390 NJ 390 1160J
+preplace netloc m_axis_valid_1 1 0 4 NJ 490 NJ 490 NJ 490 1220J
+preplace netloc xfft_0_s_axis_config_tready 1 3 4 1240 590 NJ 590 2050 560 N
+preplace netloc mult_gen_0_P 1 2 1 N 230
+preplace netloc xlslice_0_Dout 1 1 1 760 210n
+preplace netloc mult_gen_1_P 1 2 1 950 90n
+preplace netloc xlslice_1_Dout 1 1 1 760 90n
+preplace netloc axis_data_fifo_0_s_axis_tready 1 4 1 1640 360n
+preplace netloc fft_ready_out_1 1 0 6 -10J 580 NJ 580 NJ 580 NJ 580 NJ 580 2040
+preplace netloc xfft_0_m_axis_data_tdata 1 0 5 560 0 NJ 0 NJ 0 NJ 0 1640
+preplace netloc c_addsub_0_S 1 3 2 NJ 250 1650
+preplace netloc axis_data_fifo_0_m_axis_tdata 1 5 1 2040 310n
+preplace netloc axis_data_fifo_0_m_axis_tvalid 1 5 2 N 400 NJ
+preplace netloc xfft_0_m_axis_data_tlast 1 4 3 1660 250 NJ 250 NJ
+preplace netloc xfft_0_s_axis_data_tready 1 3 4 1230 610 NJ 610 NJ 610 NJ
+preplace netloc xfft_0_event_tlast_unexpected 1 4 3 1650 480 NJ 480 NJ
+preplace netloc xfft_0_event_tlast_missing 1 4 3 1640 520 NJ 520 NJ
+preplace netloc xlslice_2_Dout 1 6 1 N 310
+preplace netloc xfft_0_m_axis_data_tvalid 1 4 1 1660 380n
+levelinfo -pg 1 -30 660 860 1070 1440 1870 2160 2280
+pagesize -pg 1 -db -bbox -sgen -210 -120 2480 1330
 "
 }
 {

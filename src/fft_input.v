@@ -1,53 +1,106 @@
+`timescale 1ns / 1ps
+`default_nettype none
+
 module fft_input #(
-    parameter FFT_SIZE = 2048
+    parameter FFT_SIZE   = 1024,
+    parameter DATA_WIDTH = 24,       // Width of I2S data
+    parameter AXIS_WIDTH = 48,       // Width of FFT Input container
+    parameter CFG_WIDTH  = 16        // Configuration Channel Width
 )(
-    input  wire        clk,
-    input  wire        reset,
+    input wire clk,
+    input wire resetn,
 
-    // 24-bit signed audio from volume controller
-    input  wire [23:0] sample_in,
-    input  wire        sample_valid,
-    input  wire        sample_ready,   // now an INPUT from top (driven by FFT s_axis_ready)
+    // FIFO Interface (MUST BE FWFT MODE)
+    input wire [DATA_WIDTH-1:0] fifo_data,
+    input wire fifo_empty,
+    output reg fifo_rd_en,
 
-    // AXIS to FFT (32-bit complex)
-    output reg  [31:0] tdata,     // {imag, real}
-    output reg         tvalid,
-    output reg         tlast,
-    input  wire        tready
+    // FFT Data Interface
+    output reg [AXIS_WIDTH-1:0] m_axis_data_tdata,
+    output reg m_axis_data_tvalid,
+    output wire m_axis_data_tlast,   // Changed to wire for precise timing
+    input wire m_axis_data_tready,
+
+    // FFT Config Interface
+    output reg [CFG_WIDTH-1:0] m_axis_config_tdata,
+    output reg m_axis_config_tvalid,
+    input wire m_axis_config_tready
 );
 
-    // Counter for TLAST generation
-    reg [$clog2(FFT_SIZE)-1:0] sample_cnt = 0;
+    // State Machine Constants
+    localparam [1:0] IDLE      = 2'b00, 
+                     SEND_CFG  = 2'b01, 
+                     STREAMING = 2'b10;
+    
+    reg [1:0] state;
+    reg [$clog2(FFT_SIZE)-1:0] sample_cnt;
 
-    wire [15:0] real_part = sample_in[23:8]; // truncate 24→16
-    wire [15:0] imag_part = 16'd0;           // zero imaginary
+    // Configuration Value: 
+    // Bit 0 = 1 (Forward FFT)
+    // Bits 1+ = Scaling schedule (if enabled in IP GUI)
+    localparam [CFG_WIDTH-1:0] CFG_VALUE = 16'h0000;
 
-    always @(posedge clk) begin
-        if (!reset) begin
+    // --- State Machine ---
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
+            state <= IDLE;
             sample_cnt <= 0;
-            tvalid     <= 0;
-            tlast      <= 0;
-            tdata      <= 32'd0;
+            m_axis_config_tvalid <= 0;
+            m_axis_config_tdata  <= CFG_VALUE;
+            m_axis_data_tvalid   <= 0;
+            m_axis_data_tdata    <= 0;
+            fifo_rd_en           <= 0;
         end else begin
-            // tvalid follows sample_valid; only forward when FFT ready (sample_ready)
-            tvalid <= sample_valid & sample_ready;
+            // Default outputs (Pulse behavior for AXI-Stream)
+            m_axis_config_tvalid <= 0;
+            m_axis_data_tvalid   <= 0;
+            fifo_rd_en           <= 0;
 
-            if (sample_valid && sample_ready) begin
-                // pack and send to FFT
-                tdata <= {imag_part, real_part};
-
-                if (sample_cnt == FFT_SIZE-1) begin
-                    tlast <= 1'b1;
-                    sample_cnt <= 0;
-                end else begin
-                    tlast <= 1'b0;
-                    sample_cnt <= sample_cnt + 1;
+            case (state)
+                // 1. Wait for Reset to clear
+                IDLE: begin
+                    state <= SEND_CFG;
                 end
-            end else begin
-                // if not sending this cycle, keep tlast low
-                tlast <= 1'b0;
-            end
+
+                // 2. Send Configuration to FFT (Required to "wake up" the IP)
+                SEND_CFG: begin
+                    m_axis_config_tvalid <= 1;
+                    m_axis_config_tdata  <= CFG_VALUE;
+                    if (m_axis_config_tready) begin
+                        state <= STREAMING;
+                    end
+                end
+
+                // 3. Move data from FIFO to FFT
+                STREAMING: begin
+                    // Handshake: We have data AND the FFT is ready to take it
+                    if (!fifo_empty && m_axis_data_tready) begin
+                        fifo_rd_en         <= 1;
+                        m_axis_data_tvalid <= 1;
+                        
+                        // Data Formatting: {Imaginary (16-bit 0), Real (16-bit Audio)}
+                        // We take the top 16 bits of your 24-bit audio for the FFT input
+                        m_axis_data_tdata  <= { 24'd0, fifo_data[23:0] };
+
+                        // Manage the frame counter
+                        if (sample_cnt == FFT_SIZE - 1) begin
+                            sample_cnt <= 0;
+                        end else begin
+                            sample_cnt <= sample_cnt + 1;
+                        end
+                    end
+                end
+
+                default: state <= IDLE;
+            endcase
         end
     end
+
+    // --- TLAST Generation ---
+    // In AXI-Stream, TLAST must be high AT THE SAME TIME as the 1024th TVALID.
+    // Using a continuous assign ensures there is no 1-clock delay.
+    assign m_axis_data_tlast = (state == STREAMING) && 
+                               (sample_cnt == FFT_SIZE - 1) && 
+                               (!fifo_empty && m_axis_data_tready);
 
 endmodule

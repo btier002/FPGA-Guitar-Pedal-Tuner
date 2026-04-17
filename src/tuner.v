@@ -26,7 +26,7 @@ module tuner #(
 ) (
     input wire clk,
     input wire reset,
-    input wire [15:0] led,
+    output wire [15:0] led,
     input wire [FREQ_WIDTH-1:0] freq_in,
     input wire freq_valid,
     output reg [3:0] an,
@@ -35,8 +35,9 @@ module tuner #(
     
     //Notes
     parameter B0 = 30; //Extension for 5 string
-    parameter D0 = 32;
-    parameter DS0 = 37;
+    //parameter 
+    parameter D0 = 37;
+    parameter DS0 = 39;
     parameter E1 = 41; // E String
     parameter F1 = 44;
     parameter FS1 = 46;
