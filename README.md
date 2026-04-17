@@ -1,4 +1,4 @@
-# Robotics-Fall-Indepedent-Study-2025
+# FPGA Guitar Pedal Tuner Project
 
 Digital Audio Processing using an FPGA
 Developed by Beatrix J Tierney, materials provided by Dr. Kevin McCullen, SUNY Plattsburgh Robotics Department
